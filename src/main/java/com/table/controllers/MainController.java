@@ -43,8 +43,6 @@ public class MainController {
     @GetMapping("/sortByName")
     public String sortByName(Model model) {
         List<User> users = (List<User>) userRepository.findAll();
-       // Comparator<User> employeeNameComparator = Comparator.comparing(User::getName);
-      
         Collections.sort(users, new Comparator<User>() {
             @Override
             public int compare(User user1, User user2) {
@@ -58,8 +56,6 @@ public class MainController {
     @GetMapping("/sortByFirstLogin")
     public String sortByFirstLogin(Model model) {
         List<User> users = (List<User>) userRepository.findAll();
-       // Comparator<User> employeeNameComparator = Comparator.comparing(User::getName);
-      
         Collections.sort(users, new Comparator<User>() {
             @Override
             public int compare(User user1, User user2) {
@@ -73,8 +69,6 @@ public class MainController {
     @GetMapping("/sortByLastLogin")
     public String sortByLastLogin(Model model) {
         List<User> users = (List<User>) userRepository.findAll();
-       // Comparator<User> employeeNameComparator = Comparator.comparing(User::getName);
-       
         Collections.sort(users, new Comparator<User>() {
             @Override
             public int compare(User user1, User user2) {

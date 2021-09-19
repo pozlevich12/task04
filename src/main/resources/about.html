@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Table of users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+</head>
+
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="/" class="nav-link" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link active">Users</a></li>
+            </ul>
+        </header>
+    </div>
+    <div class="table-responsive px-4 pt-5 text-center border-bottom">
+
+        <table class="table" width="200">
+            <thead>
+                <tr>
+                    <th scope="col">CheckBox</th>
+                    <th scope="col"><a href="/sortById">Id</a></th>
+                    <th scope="col"><a href="/sortByName">Name</a></th>
+                    <th scope="col"><select th:onchange="'window.location.href=' + 'this.value'"><option>Social Network</option><option th:each="provider : ${T(com.table.entity.AuthProvider).values()}" th:value="${provider}" th:text="${provider}"></option></select></th>
+                    <th scope="col"><a href="/sortByFirstLogin">First Login</a></th>
+                    <th scope="col"><a href="/sortByLastLogin">Last Login</a></th>
+                    <th scope="col"><select th:onchange="'window.location.href=' + 'this.value'"><option>Status</option><option>Blocked</option><option>UnBlocked</option></select></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <th scope="row"><input type="checkbox" class="form-check-input" id="exampleCheck1"></th>
+                    <td th:text="${user.id}" />
+                    <td th:text="${user.name}" />
+                    <td th:text="${user.authProvider}" />
+                    <td th:text="${user.firstVisit}" />
+                    <td th:text="${user.lastVisit}" />
+                    <td th:text="(${user.blocked} ? 'Blocked' : 'UnBlocked')" />
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+
+
+</html>

@@ -1,33 +1,62 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Demo</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width" />
-    <base href="/" />
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <title>Table of users</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
-    <h1>Demo</h1>
-    <div class="container unauthenticated">
-        With GitHub: <a href="/oauth2/authorization/github">click here</a>
+    <div class="container">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link">Users</a></li>
+            </ul>
+        </header>
     </div>
-    <div class="container authenticated" style="display:none">
-        Вы вошли как: <span id="user"> </span>
-        <div>
-            <button onClick="logout()" class="btn btn-primary"> Выйти </button>
+    <div class="px-4 pt-5 text-center border-bottom">
+        <div class="container unauthenticated">
+            <h1 class="display-4 fw-bold">Hello, my dear friend!</h1>
+            <p class="lead mb-4">The site has X registered users. For more information, please sign in.</p><br>
+            <a href="/oauth2/authorization/github" class="btn btn-social-icon  btn-github ">
+                <span class="fa fa-github"> </span> Sign in with GitHub
+            </a>
+            <form><a href="/oauth2/authorization/google" class="btn btn-social-icon  btn-google">
+                    <span class="fa fa-google"> </span> Sign in with Google
+                </a></form>
+            <form><a href="/oauth2/authorization/azure-client" class="btn btn-social-icon  btn-windows ">
+                    <span class="fa fa-windows"> </span> Sign in with Microsoft
+                </a></form>
+
         </div>
+        <div class="container authenticated" style="display:none">
+            You logged in as:<br> <span id="user"></span><br><br>
+            <div>
+                <button onClick="logout()" class="btn btn-primary">Logout</button>
+            </div>
+
+        </div>
+        <br><br>
     </div>
+    <footer class="text-center text-lg-start text-muted">
+        <div class="chart-wrapper">
+            <p>Registered users: <span id="count"></span></p>
+            <div> <canvas id="myChart"></canvas></div>
+        </div>
+    </footer>
 </body>
 <script type="text/javascript">
-
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
             if (settings.type == 'POST' || settings.type == 'PUT'
@@ -47,6 +76,59 @@
         $(".authenticated").show()
     });
 
+    $.get("/chart", function (temp) {
+        $("#count").html(temp.count)
+        let ctx = document.getElementById('myChart').getContext('2d');
+        let labels = ['GitHub', 'Google', 'Azure'];
+        let colorHex = ['#000', '#FFA500', '#5B92E5'];
+
+
+        let myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: [temp.github, temp.google, temp.azure],
+                    backgroundColor: colorHex
+                }],
+                labels: labels
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom'
+                },
+                plugins: {
+                    datalabels: {
+                        color: '#000',
+                        anchor: 'end',
+                        align: 'start',
+                        offset: -10,
+                        borderWidth: 2,
+                        borderColor: '#000',
+                        borderRadius: 15,
+                        backgroundColor: (context) => {
+                            return context.dataset.backgroundColor;
+                        },
+                        font: {
+                            weight: 'bold',
+                            size: '10'
+                        },
+                        formatter: (value) => {
+                            return value + ' %';
+                        }
+                    }
+                }
+            }
+        })
+
+        let flag = setInterval(() => {
+            $.get("/chart", function (temp) {
+                $("#count").html(temp.count)
+                myChart.data.datasets[0].data = [temp.github, temp.google, temp.azure];
+                myChart.update(0);
+            });
+        }, 1000);
+    });
     var logout = function () {
         $.post("/logout", function () {
             $("#user").html('');
