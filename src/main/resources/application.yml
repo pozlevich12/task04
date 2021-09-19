@@ -5,10 +5,37 @@ spring:
   jsf:
     primefaces: 
       FONT_AWESOME: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_web
+    username: root
+    password: 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   security:
     oauth2:
       client:
         registration:
+          google:
+            clientId: 1045108776397-maofqu1etqdk0vf7nlll9418jodg2cik.apps.googleusercontent.com
+            clientSecret: VMS9VrV8Q-pUefSiqjmzhoP9
           github:
             clientId: e3a07f4c8d0adb05a9f6
             client-secret: 6bbe311c321f82b974f5ce5e21d9f841a6a672fd
+          azure-client:
+            provider: azure-ad
+            clientId: 6503194a-ebca-4f88-980a-b78c7beba796
+            client-secret: kto99UVr~f9XdXbA.d.-d7_IST10V0b5n-
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: openid, profile, email
+        provider:
+          azure-ad:
+            authorization-uri: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+            token-uri: https://login.microsoftonline.com/common/oauth2/v2.0/token
+            jwk-set-uri: https://login.microsoftonline.com/common/discovery/v2.0/keys

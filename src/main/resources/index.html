@@ -22,7 +22,7 @@
     <div class="container authenticated" style="display:none">
         Вы вошли как: <span id="user"> </span>
         <div>
-            <button onClick="logout ()" class="btn btn-primary"> Выйти </button>
+            <button onClick="logout()" class="btn btn-primary"> Выйти </button>
         </div>
     </div>
 </body>
@@ -48,12 +48,12 @@
     });
 
     var logout = function () {
-        $.post("/ logout", function () {
-            $("# пользователь").html('');
-            $(". не аутентифицировано").show();
-            $(". аутентифицирован").hide();
+        $.post("/logout", function () {
+            $("#user").html('');
+            $(".unauthenticated").show();
+            $(".authenticated").hide();
         })
-    return true;
+        return true;
     }
 </script>
 
