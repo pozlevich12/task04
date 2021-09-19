@@ -1,0 +1,14 @@
+spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/
+  jsf:
+    primefaces: 
+      FONT_AWESOME: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: e3a07f4c8d0adb05a9f6
+            client-secret: 6bbe311c321f82b974f5ce5e21d9f841a6a672fd
