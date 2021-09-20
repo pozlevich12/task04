@@ -159,14 +159,6 @@
                 }
             }
         })
-
-        let flag = setInterval(() => {
-            $.get("/chart", function (temp) {
-                $("#count").html(temp.count)
-                myChart.data.datasets[0].data = [temp.github, temp.google, temp.azure];
-                myChart.update(0);
-            });
-        }, 1000);
     });
     var logout = function () {
         $.post("/logout", function () {
