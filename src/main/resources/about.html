@@ -25,7 +25,8 @@
             <table class="table" width="200">
                 <thead><br><br>
                     <tr>
-                        <th scope="col"></th>
+                        <th scope="col"><input type="checkbox" onClick="toggle(this)" 
+                                name="toggleAll"></th>
                         <th scope="col"><a href="/sortById">Id</a></th>
                         <th scope="col"><a href="/sortByName">Name</a></th>
                         <th scope="col"><select th:onchange="'window.location.href=' + 'this.value'">
@@ -44,7 +45,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="user : ${users}">
-                        <td scope="row"><input type="checkbox" class="form-check-input" name="checkbox"
+                        <td scope="row"><input type="checkbox" name="checkbox"
                                 th:value="${user.id}"></td>
                         <td th:text="${user.id}" />
                         <td th:text="${user.name}" />
@@ -58,5 +59,13 @@
         </form>
     </div>
 </body>
+<script type="text/javascript">
+    function toggle(source) {
+        checkboxes = document.getElementsByName('checkbox');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
 
 </html>
