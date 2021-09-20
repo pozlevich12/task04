@@ -18,11 +18,15 @@
         </header>
     </div>
     <div class="table-responsive px-4 pt-5 text-center border-bottom">
-
-        <table class="table" width="200">
-            <thead>
+        
+<form action="#" th:action="@{/edit}" th:object="${users}" method="POST" id="my_form">
+    <button type="submit" class="btn btn-warning" name="action" value="block">Block</button>
+    <button type="submit" class="btn btn-success" name="action" value="unblock">UnBlock</button>
+    <button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button>
+    <table class="table" width="200">
+            <thead><br><br>
                 <tr>
-                    <th scope="col">CheckBox</th>
+                    <th scope="col"></th>
                     <th scope="col"><a href="/sortById">Id</a></th>
                     <th scope="col"><a href="/sortByName">Name</a></th>
                     <th scope="col"><select th:onchange="'window.location.href=' + 'this.value'"><option>Social Network</option><option th:each="provider : ${T(com.table.entity.AuthProvider).values()}" th:value="${provider}" th:text="${provider}"></option></select></th>
@@ -33,7 +37,7 @@
             </thead>
             <tbody>
                 <tr th:each="user : ${users}">
-                    <th scope="row"><input type="checkbox" class="form-check-input" id="exampleCheck1"></th>
+                    <td scope="row"><input type="checkbox" class="form-check-input" name="checkbox" th:value="${user.id}"></td>
                     <td th:text="${user.id}" />
                     <td th:text="${user.name}" />
                     <td th:text="${user.authProvider}" />
@@ -43,6 +47,9 @@
                 </tr>
             </tbody>
         </table>
+        
+       
+    </form>
     </div>
 </body>
 

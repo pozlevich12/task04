@@ -6,12 +6,12 @@ spring:
     primefaces: 
       FONT_AWESOME: true
   datasource:
-    url: jdbc:mysql://eu-cdbr-west-01.cleardb.com/heroku_abcb8e81c386026
-    username: b17c781d12ab82
-    password: c7f5f2df
-    #url: jdbc:mysql://localhost:3306/spring_web
-    #username: root
-    #password:
+    #url: jdbc:mysql://eu-cdbr-west-01.cleardb.com/heroku_abcb8e81c386026
+    #username: b17c781d12ab82
+    #password: c7f5f2df
+    url: jdbc:mysql://localhost:3306/spring_web
+    username: root
+    password:
   jpa:
     show-sql: true
     hibernate:

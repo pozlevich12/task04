@@ -1,16 +1,17 @@
 package com.table.controllers;
 
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.table.entity.AuthProvider;
 import com.table.entity.User;
 import com.table.repository.UserRepository;
@@ -109,11 +110,43 @@ public class MainController {
         return "about";
     }
     
+    @RequestMapping(value = "/edit" , method = RequestMethod.POST, params="action=block")
+    public String blocking(@RequestParam(value = "checkbox" , required = false) Long[] checkboxes,  Model model) {
+        if(checkboxes != null) {
+            Iterable<Long> ids = Arrays.asList(checkboxes);
+            List<User> users = (List<User>) userRepository.findAllById(ids);
+            for(User user : users) {
+                user.setBlocked(true);
+                userRepository.save(user);
+            }
+        }
+        model.addAttribute("users", userRepository.findAll());
+    return "about";
     
+    }
     
+    @RequestMapping(value = "/edit" , method = RequestMethod.POST, params="action=unblock")
+    public String unBlocking(@RequestParam(value = "checkbox" , required = false) Long[] checkboxes,  Model model) {
+        if(checkboxes != null) {
+            Iterable<Long> ids = Arrays.asList(checkboxes);
+            List<User> users = (List<User>) userRepository.findAllById(ids);
+            for(User user : users) {
+                user.setBlocked(false);
+                userRepository.save(user);
+            }
+        }
+        model.addAttribute("users", userRepository.findAll());
+    return "about";
+    }
     
+    @RequestMapping(value = "/edit" , method = RequestMethod.POST, params="action=delete")
+    public String delete(@RequestParam(value = "checkbox" , required = false) Long[] checkboxes,  Model model) {
+        if(checkboxes != null) {
+            Iterable<Long> ids = Arrays.asList(checkboxes);
+            userRepository.deleteAllById(ids);
+        }
+        model.addAttribute("users", userRepository.findAll());
+    return "redirect:about";
     
- 
-    
-    
+    }
 }
