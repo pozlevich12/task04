@@ -2,7 +2,6 @@ package com.table.repository;
 
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
-
 import com.table.entity.AuthProvider;
 import com.table.entity.User;
 

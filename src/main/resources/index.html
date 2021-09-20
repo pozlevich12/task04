@@ -68,7 +68,8 @@
     <div class="px-4 pt-5 text-center border-bottom">
         <div class="container unauthenticated">
             <h1 class="display-4 fw-bold">Hello, my dear friend!</h1>
-            <p class="lead mb-4">This site contains information about registered users. For more information, please sign in.</p><br>
+            <p class="lead mb-4">This site contains information about registered users. For more information, please
+                sign in.</p><br>
             <a href="/oauth2/authorization/github" class="btn btn-social-icon  btn-github ">
                 <span class="fa fa-github"> </span> Sign in with GitHub
             </a>
@@ -85,17 +86,14 @@
             <div>
                 <button onClick="logout()" class="btn btn-primary">Logout</button>
             </div>
-
         </div>
         <br><br>
     </div>
     <footer class="text-center text-lg-start text-muted">
-
         <div class="chart-wrapper">
             <p>Registered users: <span id="count"></span></p>
             <div> <canvas id="myChart"></canvas></div>
         </div>
-
     </footer>
 </body>
 <script type="text/javascript">
@@ -105,7 +103,6 @@
                 || settings.type == 'DELETE') {
                 if (!(/^http:.*/.test(settings.url) || /^https:.*/
                     .test(settings.url))) {
-                    // Only send the token to relative URLs i.e. locally.
                     xhr.setRequestHeader("X-XSRF-TOKEN",
                         Cookies.get('XSRF-TOKEN'));
                 }

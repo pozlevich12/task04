@@ -8,11 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-
 import com.table.entity.AuthProvider;
 import com.table.entity.User;
 import com.table.repository.UserRepository;
@@ -22,7 +19,6 @@ public class MainRestController {
 
     @Autowired
     private UserRepository userRepository;
-
     
     @GetMapping("/chart")
     public Map<String, Object> chart(){
@@ -34,14 +30,11 @@ public class MainRestController {
         return providers;
     }
 
- 
-    
     @GetMapping("/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-
+        
         AuthProvider authProvider;
         String providerKey;
-    
         if (principal.getAttribute("login") != null) {
             authProvider = AuthProvider.GITHUB;
             providerKey = principal.getAttribute("id").toString();
@@ -52,7 +45,7 @@ public class MainRestController {
             authProvider = AuthProvider.GOOGLE;
             providerKey = principal.getAttribute("sub");
         }
-
+        
         List<User> selectedUser = userRepository.findByProviderKeyAndAuthProvider(providerKey, authProvider);
         if (selectedUser.isEmpty()) {
             User user = new User();
@@ -63,12 +56,10 @@ public class MainRestController {
             user.setName(principal.getAttribute("name"));
             user.setBlocked(false);
             userRepository.save(user);
-
         } else {
             selectedUser.get(0).setLastVisit(LocalDateTime.now());
             userRepository.save(selectedUser.get(0));
         }
-        
         return Collections.singletonMap("name", principal.getAttribute("name"));
     }
 }

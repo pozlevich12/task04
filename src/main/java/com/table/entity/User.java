@@ -1,14 +1,12 @@
 package com.table.entity;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 
 @Entity
 public class User {
@@ -89,6 +87,4 @@ public class User {
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
     }
-
-   
 }
